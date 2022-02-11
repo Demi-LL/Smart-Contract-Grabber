@@ -1,19 +1,22 @@
+import os
 import re
 import cloudscraper
 from random import choice
 from bs4 import BeautifulSoup
 
 domain = input('Please input the contract domain you want to fetch (default is etherscan): ')
-
-if len(domain.strip()) == 0:
-  domain = 'https://etherscan.io/address/'
   
 contract_address = input('Contract Address: ')
 
 save_dir = input('Input the condirectory you want to save result: ')
 
+if len(domain.strip()) == 0:
+  domain = 'https://etherscan.io/address/'
+
 if len(save_dir.strip()) == 0:
   save_dir = './'
+elif not os.path.isdir(save_dir):
+  os.makedirs(save_dir)
 
 user_agent = ['chrome', 'firefox']
 platform = ['linux', 'windows', 'darwin']
