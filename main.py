@@ -1,8 +1,11 @@
 import os
 import re
-import cloudscraper
+import requests
 from random import choice
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+# 載入環境變數
+load_dotenv()
 
 domain = input('Please input the contract domain you want to fetch (default is etherscan): ')
   
@@ -18,10 +21,15 @@ if len(save_dir.strip()) == 0:
 elif not os.path.isdir(save_dir):
   os.makedirs(save_dir)
 
-user_agent = ['chrome', 'firefox']
-platform = ['linux', 'windows', 'darwin']
-scraper = cloudscraper.create_scraper(browser={'browser': choice(user_agent), 'platform': choice(platform)})
-res = scraper.get('{}{}'.format(domain, contract_address))
+res = requests.post('{}{}'.format(domain, contract_address),
+  headers={'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36'},
+  cookies={'cf_clearance': os.getenv('CLOUD_FLARE_KEY')},
+  data={
+    'md': '',
+    'r': '',
+    'cf_ch_verify': '',
+  }
+)
 html_content = res.text
 
 soup = BeautifulSoup(html_content, 'lxml')

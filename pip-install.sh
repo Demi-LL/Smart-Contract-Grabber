@@ -1,2 +1,2 @@
 #!/bin/bash
-pip install --target . cloudscraper bs4 lxml
+pip install --target . python-dotenv requests bs4 lxml
