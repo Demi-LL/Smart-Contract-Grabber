@@ -1,6 +1,6 @@
 # Smart Contract Grabber (智能合約自動抓取器)
 ## Used For (用途)
- 用於爬取網站上整理好的智能合約，目前支援：
+ 用於爬取網站上的智能合約，目前支援：
 - etherscan
 
 ## Environment (運行環境)

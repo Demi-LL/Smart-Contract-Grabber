@@ -11,7 +11,7 @@ domain = input('Please input the contract domain you want to fetch (default is e
   
 contract_address = input('Contract Address: ')
 
-save_dir = input('Input the condirectory you want to save result: ')
+save_dir = input('Input the directory you want to save contracts: ')
 
 if len(domain.strip()) == 0:
   domain = 'https://etherscan.io/address/'
