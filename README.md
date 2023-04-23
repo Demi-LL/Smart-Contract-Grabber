@@ -11,6 +11,11 @@
 ```console
 $ . pip-install.sh
 ```
+OR
+```shell
+$ poetry install
+$ poetry shell
+```
 
 ## Run (執行方式)
 ```console
