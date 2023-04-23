@@ -1,20 +1,16 @@
 import os
 import re
 import requests
-from random import choice
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-# 載入環境變數
+# load environment
 load_dotenv()
 
-domain = input('Please input the contract domain you want to fetch (default is etherscan): ')
+domain = input('Please input the contract domain you want to fetch (default is etherscan): ') or 'https://etherscan.io/address/'
   
 contract_address = input('Contract Address: ')
 
 save_dir = input('Input the directory you want to save contracts: ')
-
-if len(domain.strip()) == 0:
-  domain = 'https://etherscan.io/address/'
 
 if len(save_dir.strip()) == 0:
   save_dir = './'
@@ -32,12 +28,11 @@ res = requests.post('{}{}'.format(domain, contract_address),
 )
 html_content = res.text
 
-soup = BeautifulSoup(html_content, 'lxml')
+soup = BeautifulSoup(html_content, 'html.parser')
 
 codes_block = soup.find(id='dividcode')
-
-filenames = [block.text for block in codes_block.select('div.justify-content-between > span.text-secondary')]
-codes = [block.text for block in codes_block.select('div > pre.editor')]
+filenames = [block.text for block in codes_block.select('div.justify-content-between > span.text-muted')]
+codes = [block.text for block in codes_block.select('div > pre.js-sourcecopyarea.editor')]
 
 for filename, code in zip(filenames, codes):
   regex_result = re.compile('.+: (.+)').search(filename)
@@ -47,4 +42,3 @@ for filename, code in zip(filenames, codes):
     pure_filename = regex_result.group(1)
     with open('{}/{}'.format(save_dir.rstrip('/'), pure_filename), 'w+') as file:
       file.write(code)
-      file.close()
